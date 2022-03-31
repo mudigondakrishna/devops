@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="201738a3-4094-4bc9-9a15-6272381684cb" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="9acea3a2-1f96-44be-8686-a7c1203bb192" >
+		<email:smtp-connection host="smtp.gmail.com" user="prasadmec333@gmailcom" password="D200@624m" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true&#10;" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<flow name="emailFlow" doc:id="d2aa7a55-6c54-4268-b098-787001906cb3" >
+		<http:listener doc:name="Listener" doc:id="212ccf0a-b715-4726-a76f-8247720638fb" config-ref="HTTP_Listener_config" path="/sendmail"/>
+		<email:send doc:id="94122439-d300-44a5-8d5b-3c8dd6c4508a" config-ref="Email_SMTP" fromAddress="prasadmec333@gmail.com" subject="mail from smtp">
+			<email:to-addresses >
+				<email:to-address value="mounikamudigonda33@gmil.com" />
+			</email:to-addresses>
+			<email:cc-addresses >
+				<email:cc-address value="mudigondakrishna33@gmail.com" />
+			</email:cc-addresses>
+			<email:bcc-addresses >
+				<email:bcc-address value="sravanmallampati31@gmail.com" />
+			</email:bcc-addresses>
+			<email:body >
+				<email:content ><![CDATA[it's a smtp mail]]></email:content>
+			</email:body>
+		</email:send>
+		<logger level="INFO" doc:name="Logger" doc:id="47d08ee0-cc1e-48d9-8904-e18268e49333" message="mail send sucesful"/>
+	</flow>
+</mule>
